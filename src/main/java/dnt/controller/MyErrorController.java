@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
-    @ResponseBody
     public String handleError(HttpServletRequest request) {
         /*Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
@@ -38,4 +37,6 @@ public class MyErrorController implements ErrorController {
     public String getErrorPath() {
         return "/error";
     }
+
+
 }
