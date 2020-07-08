@@ -51,12 +51,12 @@ public class RoomType implements Serializable {
     @OneToMany(mappedBy = "roomType")
     private Set<Room> rooms;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdDt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedDt;
