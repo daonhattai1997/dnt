@@ -1,7 +1,7 @@
 package dnt.entity;
 
 import dnt.entity.EnumType.StatusName;
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Table(name = "status")
 @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s where delete_flag = 'N'")
-public class Status extends AuditObject {
+public class Status extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id

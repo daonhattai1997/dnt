@@ -1,13 +1,12 @@
 package dnt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 /**
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "booking_detail")
 @NamedQuery(name = "BookingDetail.findAll", query = "SELECT d FROM BookingDetail d where delete_flag = 'N'")
-public class BookingDetail extends AuditObject {
+public class BookingDetail extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore

@@ -17,7 +17,7 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createDt", "updateDt"}, allowGetters = true)
 @Getter
 @Setter
-public abstract class AuditObject implements Serializable {
+public abstract class AuditDate implements Serializable {
 
     @Column(name = "create_dt", nullable = false, updatable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)

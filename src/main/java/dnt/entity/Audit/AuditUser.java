@@ -18,7 +18,7 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createdBy", "updatedBy"}, allowGetters = true)
 @Getter
 @Setter
-public abstract class AuditUser implements Serializable {
+public abstract class AuditUser extends AuditDate implements Serializable {
 
     @Column(name = "create_by", nullable = false, updatable = false)
     @CreatedBy

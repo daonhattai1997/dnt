@@ -1,6 +1,6 @@
 package dnt.entity;
 
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "_group")
 @NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g where delete_flag = 'N'")
-public class Group extends AuditObject {
+public class Group extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -1,6 +1,6 @@
 package dnt.entity;
 
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "room_type")
 @NamedQuery(name = "RoomType.findAll", query = "SELECT r FROM RoomType r where delete_flag = 'N'")
-public class RoomType extends AuditObject {
+public class RoomType extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id

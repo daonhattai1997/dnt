@@ -1,6 +1,6 @@
 package dnt.entity;
 
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "feedback")
 @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f where delete_flag = 'N'")
-public class Feedback extends AuditObject {
+public class Feedback extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id

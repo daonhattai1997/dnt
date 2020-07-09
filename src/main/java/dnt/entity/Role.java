@@ -1,6 +1,6 @@
 package dnt.entity;
 
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import dnt.entity.EnumType.RoleName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "role")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r where delete_flag = 'N'")
-public class Role extends AuditObject {
+public class Role extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -38,6 +38,10 @@ public class Role extends AuditObject {
     //bi-directional many-to-many association to Staff
     @ManyToMany(mappedBy = "roles")
     private Set<Staff> staffs = new HashSet<>();
+
+    //bi-directional many-to-many association to Staff
+    @ManyToMany(mappedBy = "roles")
+    private Set<MenuProgram> menus = new HashSet<>();
 
 }
 

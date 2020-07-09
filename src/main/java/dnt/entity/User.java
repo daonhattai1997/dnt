@@ -1,13 +1,11 @@
 package dnt.entity;
 
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 /**
@@ -19,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "_user")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u where delete_flag = 'N'")
-public class User extends AuditObject {
+public class User extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @Id

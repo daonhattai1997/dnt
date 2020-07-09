@@ -1,7 +1,7 @@
 package dnt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dnt.entity.Audit.AuditObject;
+import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "room")
 @NamedQuery(name = "Room.findAll", query = "SELECT r FROM Room r where delete_flag = 'N'")
-public class Room extends AuditObject {
+public class Room extends AuditDate {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
