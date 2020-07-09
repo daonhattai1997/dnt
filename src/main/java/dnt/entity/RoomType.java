@@ -1,16 +1,11 @@
 package dnt.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import dnt.entity.Audit.AuditObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 
@@ -22,9 +17,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Table(name = "room_type")
-@EntityListeners(AuditingEntityListener.class)
-@NamedQuery(name = "RoomType.findAll", query = "SELECT r FROM RoomType r")
-public class RoomType implements Serializable {
+@NamedQuery(name = "RoomType.findAll", query = "SELECT r FROM RoomType r where delete_flag = 'N'")
+public class RoomType extends AuditObject {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -50,16 +44,6 @@ public class RoomType implements Serializable {
     //bi-directional many-to-one association to Room
     @OneToMany(mappedBy = "roomType")
     private Set<Room> rooms;
-
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdDt;
-
-    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedDt;
 
     public Room addRoom(Room room) {
         getRooms().add(room);

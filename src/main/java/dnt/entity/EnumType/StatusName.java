@@ -1,0 +1,15 @@
+package dnt.entity.EnumType;
+
+public enum StatusName {
+    BOOKING_DONE,
+    BOOKING_PENDING,
+    BOOKING_CONFIRMED,
+    BOOKING_REJECTED,
+    ROOM_AVAILABLE,
+    ROOM_RESERVED,
+    ROOM_NOT_AVAILABLE,
+    ROOM_UNDER_FIXING,
+    PAYMENT_NOT_PAID,
+    PAYMENT_PAID,
+    PAYMENT_DEBIT
+}
