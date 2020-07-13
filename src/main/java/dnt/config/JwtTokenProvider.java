@@ -24,6 +24,7 @@ public class JwtTokenProvider {
     @Value("${application.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
+    // generate jwt from user information
     public String generateToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -36,6 +37,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // get information from jwt
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)

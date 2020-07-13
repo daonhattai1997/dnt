@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Setter(onMethod = @__(@Autowired))
-public class AccountService implements UserDetailsService {
+public class AuthService implements UserDetailsService {
 
     private AccountRepository accountRepository;
     private PasswordEncoder passwordEncoder;

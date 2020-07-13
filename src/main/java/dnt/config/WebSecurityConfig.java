@@ -1,6 +1,6 @@
 package dnt.config;
 
-import dnt.service.AccountService;
+import dnt.service.AuthService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AccountService accountService;
+    private AuthService authService;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -46,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(accountService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(authService) //put authService for spring security
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override

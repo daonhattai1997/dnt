@@ -7,7 +7,7 @@ import dnt.entity.UserPrincipal;
 import dnt.entity.Data.ApiResponse;
 import dnt.entity.Data.LoginRequest;
 import dnt.entity.Data.RegisterRequest;
-import dnt.service.AccountService;
+import dnt.service.AuthService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ import java.net.URI;
 public class AuthRestController {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
-    private AccountService accountService;
+    private AuthService authService;
 
     @PostMapping(value = "/login", consumes = {"application/json"})
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
@@ -40,18 +40,22 @@ public class AuthRestController {
                         loginRequest.getPassword())
         );
 
+        // if there is no exception, that means user information is available
+        // set authentication into Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenProvider.generateToken(authentication);
-        JwtAuthResponse response = new JwtAuthResponse(jwt);
 
+        //return jwt
+        String jwt = jwtTokenProvider.generateToken(authentication);
+
+        JwtAuthResponse response = new JwtAuthResponse(jwt);
         response.setRoles(((UserPrincipal) authentication.getPrincipal()).getStaff().getRoles());
 
-        return ResponseEntity.ok(new JwtAuthResponse(jwt));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping(value = "/register", consumes = {"application/json"})
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        Staff staff = accountService.register(registerRequest);
+        Staff staff = authService.register(registerRequest);
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/users/{username}")

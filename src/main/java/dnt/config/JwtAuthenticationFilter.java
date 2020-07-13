@@ -1,11 +1,10 @@
 package dnt.config;
 
-import dnt.service.AccountService;
+import dnt.service.AuthService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -29,18 +28,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
-    private AccountService userDetailsService;
+    private AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = getJwtFromRequest(request); // Lấy jwt từ request
+            String jwt = getJwtFromRequest(request); // get jwt from request
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                String username = tokenProvider.getUsernameFromJWT(jwt); // Lấy id user từ chuỗi jwt
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username); // Lấy thông tin người dùng từ id
+                String username = tokenProvider.getUsernameFromJWT(jwt); // Lấy id user from jwt
+                UserDetails userDetails = authService.loadUserByUsername(username);
 
-                if(userDetails != null)// Nếu người dùng hợp lệ, set thông tin cho Seturity Context
+                if(userDetails != null)// If user is available, set information for Security Context
                 {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

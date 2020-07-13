@@ -19,12 +19,12 @@ public class MainController {
     @Autowired
     private RoomService room;
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", "/home"})
     public String root() {
-        return "redirect:/home";
+        return "home";
     }
 
-    @GetMapping("/home")
+    @GetMapping("/room")
     public List<RoomType> welcome() {
         return room.findAll();
                 //.orElseThrow(() -> new ResourceNotFoundException("Room Type", "count", -1));
