@@ -22,10 +22,10 @@ public abstract class AuditUser extends AuditDate implements Serializable {
 
     @Column(name = "create_by", nullable = false, updatable = false)
     @CreatedBy
-    private Integer createdBy;
+    private String createdBy;
 
     @Column(name = "updated_by", nullable = false)
     @LastModifiedBy
-    private Integer updatedBy;
+    private String updatedBy;
 
 }

@@ -72,7 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] ignored = {
                 "/", "/home",
                 "/auth/login",
-                "/auth/register"
+                "/auth/register",
+                "/room"
         };
 
         http.cors().and() //prevent any request from another domain
