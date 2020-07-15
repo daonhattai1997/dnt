@@ -30,7 +30,7 @@ public class MenuProgram extends AuditUser {
     private String menuName;
 
     @NotBlank
-    @Column(name = "parent_id")
+    @Column(name = "parent_id", columnDefinition = "int default 0")
     private int parentId;
 
     @NotBlank
