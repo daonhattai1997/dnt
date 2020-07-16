@@ -71,9 +71,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String[] ignored = {
                 "/", "/home",
-                "/auth/login",
-                "/auth/register",
-                "/room"
+                "/auth/login", "/login",
+                "/auth/register", "/register",
+                "/room", "/menu"
         };
 
         http.cors().and() //prevent any request from another domain

@@ -1,5 +1,6 @@
 package dnt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dnt.entity.Audit.AuditDate;
 import dnt.entity.EnumType.RoleName;
 import lombok.Getter;
@@ -8,7 +9,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -19,6 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties(value= {"staffs", "menus"})
 @Table(name = "role")
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r where delete_flag = 'N'")
 public class Role extends AuditDate {
@@ -41,7 +45,7 @@ public class Role extends AuditDate {
 
     //bi-directional many-to-many association to Staff
     @ManyToMany(mappedBy = "roles")
-    private Set<MenuProgram> menus = new HashSet<>();
+    private List<MenuProgram> menus = new ArrayList<>();
 
 }
 

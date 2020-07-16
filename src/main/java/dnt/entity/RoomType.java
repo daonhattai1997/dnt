@@ -1,5 +1,6 @@
 package dnt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dnt.entity.Audit.AuditDate;
 import lombok.Getter;
@@ -18,7 +19,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(value= {"rooms"})
 @Table(name = "room_type")
 @NamedQuery(name = "RoomType.findAll", query = "SELECT r FROM RoomType r where delete_flag = 'N'")
 public class RoomType extends AuditDate {
@@ -44,7 +44,7 @@ public class RoomType extends AuditDate {
     @Column(nullable = false)
     private double price;
 
-    //bi-directional many-to-one association to Room
+    @JsonIgnore
     @OneToMany(mappedBy = "roomType")
     private Collection<Room> rooms;
 

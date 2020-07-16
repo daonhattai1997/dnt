@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -16,5 +17,5 @@ public class JwtAuthResponse {
     @NonNull
     private String accessToken;
     private String tokenType = "Bearer";
-    private Set<Role> roles;
+    private List<Role> roles;
 }

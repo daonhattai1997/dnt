@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,7 +32,7 @@ public class ReportType extends AuditDate {
 
     //bi-directional many-to-one association to Report
     @OneToMany(mappedBy = "reportType")
-    private Set<Report> reports;
+    private List<Report> reports;
 
     public Report addReport(Report report) {
         getReports().add(report);

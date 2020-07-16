@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -54,7 +55,7 @@ public class Hotel extends AuditDate {
     //bi-directional many-to-one association to Room
     @JsonIgnore
     @OneToMany(mappedBy = "hotel")
-    private Set<Room> rooms;
+    private List<Room> rooms;
 
     public Report addReport(Report report) {
         getReports().add(report);
