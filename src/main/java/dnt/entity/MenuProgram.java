@@ -3,6 +3,7 @@ package dnt.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dnt.entity.Audit.AuditUser;
 import dnt.entity.EnumType.MenuTypeName;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "menu")
 public class MenuProgram extends AuditUser {
 
@@ -26,6 +28,7 @@ public class MenuProgram extends AuditUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id", unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private int menuId;
 
     @NotBlank
@@ -43,9 +46,6 @@ public class MenuProgram extends AuditUser {
     @NotBlank
     @Enumerated(EnumType.STRING)
     private MenuTypeName menuType;
-
-    @Column(name = "use_flag", nullable = false, columnDefinition = "varchar(3) default 'Y'")
-    private String useFlag;
 
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE})

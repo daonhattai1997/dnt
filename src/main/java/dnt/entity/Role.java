@@ -1,5 +1,6 @@
 package dnt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dnt.entity.Audit.AuditDate;
 import dnt.entity.EnumType.RoleName;
@@ -33,6 +34,7 @@ public class Role extends AuditDate {
     @Column(name = "role_id", unique = true, nullable = false)
     private int roleId;
 
+    @Column(name = "description")
     private String description;
 
     @NotBlank
@@ -41,10 +43,12 @@ public class Role extends AuditDate {
 
     //bi-directional many-to-many association to Staff
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<Staff> staffs = new HashSet<>();
 
     //bi-directional many-to-many association to Staff
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private List<MenuProgram> menus = new ArrayList<>();
 
 }

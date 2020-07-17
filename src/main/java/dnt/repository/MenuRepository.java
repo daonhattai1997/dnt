@@ -13,5 +13,9 @@ public interface MenuRepository extends JpaRepository<MenuProgram, Long> {
     /*@Query("select count(r) from Staff r")
     int countByStaffId();*/
 
-    List<MenuProgram> getMenuProgramsByRoles(Optional<Role> lst);
+    //List<MenuProgram> getMenuProgramsByRoles(Optional<Role> roles);
+
+    List<MenuProgram> findAllByRolesAndDeleteFlag(Optional<Role> roles, String deleteFlag);
+
+    //List<MenuProgram> findAllByRolesAndParentIdAndDeleteFlagAndUseFlag(Optional<Role> roles, String deleteFlag, String useFlag);
 }
