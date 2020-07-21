@@ -77,15 +77,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
 
         http.cors().and() //prevent any request from another domain
-//                .csrf().disable()
+            .csrf().disable()
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()//throw Exception
 //                .sessionManagement()                                                    //***************
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()           //***************
-                .authorizeRequests()
-                .antMatchers(ignored).permitAll() //  ignore authentication in request ignored[]
-                .antMatchers(HttpMethod.POST, "/login").permitAll() // ignore authentication for request POST to "/login"
-                .anyRequest().authenticated() // the others request have to be authenticated
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            .authorizeRequests()
+            .antMatchers(ignored).permitAll() //  ignore authentication in request ignored[]
+            .antMatchers(HttpMethod.POST, "/login").permitAll() // ignore authentication for request POST to "/login"
+            .anyRequest().authenticated() // the others request have to be authenticated
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

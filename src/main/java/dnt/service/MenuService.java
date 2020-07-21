@@ -1,6 +1,7 @@
 package dnt.service;
 
 import dnt.entity.Data.Constants;
+import dnt.entity.EnumType.MenuTypeName;
 import dnt.entity.MenuProgram;
 import dnt.repository.MenuRepository;
 import dnt.repository.RoleRepository;
@@ -25,7 +26,7 @@ public class MenuService {
     public List<MenuProgram> getMenuByRole(int roleId) {
         List<MenuProgram> lst = menuRepository.findAllByRolesAndDeleteFlag(roleRepository.findByRoleId(roleId), Constants.NO);
 
-        return sortMenu(lst);
+        return lst;
     }
 
     private List<MenuProgram> sortMenu(List<MenuProgram> lst) {
@@ -46,6 +47,29 @@ public class MenuService {
 
         return res;
     }
+
+
+
+    /*private Map filterMenu(List<MenuProgram> lst, int id) {
+        Map res = new HashMap();
+
+        for(MenuProgram mp: lst)
+        {
+            if(mp.getParentId() == id)
+            {
+                if(mp.getMenuType().equals(MenuTypeName.UI))
+                {
+                    res.put("menuName", mp.getMenuName());
+                    res.put("menuContent", mp.getMenuUrl())
+                }
+                String key = mp.getMenuName();
+                res.put(mp, sortMenu(lst.stream().filter(e -> e.getParentId() != id).collect(Collectors.toList()), mp.getMenuId()));
+                //res.addAll(sortMenu(lst.stream().filter(e -> e.getParentId() != id).collect(Collectors.toList()), mp.getMenuId()));
+            }
+        }
+
+        return res;
+    }*/
 
 
 }
