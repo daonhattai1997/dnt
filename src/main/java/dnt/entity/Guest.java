@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -51,12 +53,12 @@ public class Guest extends AuditDate {
     //bi-directional many-to-one association to Booking
     @JsonIgnore
     @OneToMany(mappedBy = "guest")
-    private Set<Booking> bookings = new HashSet<>();
+    private List<Booking> bookings = new ArrayList<>();
 
     //bi-directional many-to-one association to Payment
     @JsonIgnore
     @OneToMany(mappedBy = "guest")
-    private Set<Payment> payments = new HashSet<>();
+    private List<Payment> payments = new ArrayList<>();
 
     public Booking addBooking(Booking booking) {
         getBookings().add(booking);

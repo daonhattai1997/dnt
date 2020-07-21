@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -34,7 +35,7 @@ public class ServiceType extends AuditDate {
 
     //bi-directional many-to-one association to Service
     @OneToMany(mappedBy = "serviceType")
-    private Set<Service> services;
+    private List<Service> services;
 
     public Service addService(Service service) {
         getServices().add(service);

@@ -4,16 +4,17 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 
 @Data
 public class RegisterRequest {
 
-    private Set<Integer> ownGroupIds;
+    private List<Integer> ownGroupIds;
 
-    private Set<Integer> ownedByGroupIds;
+    private List<Integer> ownedByGroupIds;
 
-    private Set<String> roles;
+    private List<String> roles;
 
     @NotBlank
     private String username;

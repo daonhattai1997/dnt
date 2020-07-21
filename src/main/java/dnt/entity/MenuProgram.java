@@ -1,20 +1,25 @@
 package dnt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dnt.entity.Audit.AuditUser;
 import dnt.entity.EnumType.MenuTypeName;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "menu")
 public class MenuProgram extends AuditUser {
 
@@ -23,6 +28,7 @@ public class MenuProgram extends AuditUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id", unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private int menuId;
 
     @NotBlank
@@ -41,18 +47,16 @@ public class MenuProgram extends AuditUser {
     @Enumerated(EnumType.STRING)
     private MenuTypeName menuType;
 
-    @Column(name = "use_flag", nullable = false, columnDefinition = "varchar(3) default 'Y'")
-    private String useFlag;
-
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "role_menu",
             joinColumns = {
-                    @JoinColumn(name = "role_id", nullable = false)
+                    @JoinColumn(name = "menu_id", nullable = false)
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "menu_id", nullable = false)
+                    @JoinColumn(name = "role_id", nullable = false)
             })
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
 
 }

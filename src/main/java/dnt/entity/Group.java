@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -44,6 +45,6 @@ public class Group extends AuditDate {
             inverseJoinColumns = {
                     @JoinColumn(name = "staff_id", nullable = false)
             })
-    private Set<Staff> staffs;
+    private List<Staff> staffs;
 
 }

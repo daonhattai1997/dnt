@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -56,14 +58,14 @@ public class Booking extends AuditDate {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Payment payment = new Payment();
 
-    //bi-directional one-to-one association to DetailBooking
+    @JsonIgnore
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "booking",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<BookingDetail> bookingDetails = new HashSet<>();
+    private List<BookingDetail> bookingDetails = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(
@@ -72,7 +74,7 @@ public class Booking extends AuditDate {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<GuestService> guestServices = new HashSet<>();
+    private List<GuestService> guestServices = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_name", nullable = false)

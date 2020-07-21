@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -41,11 +43,11 @@ public class Staff extends AuditDate {
 
     //bi-directional many-to-one association to Group
     @OneToMany(mappedBy = "manager")
-    private Set<Group> ownGroups;
+    private List<Group> ownGroups;
 
     //bi-directional many-to-many association to Group
     @ManyToMany(mappedBy = "staffs")
-    private Set<Group> ownedByGroups;
+    private List<Group> ownedByGroups;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_name")
@@ -59,26 +61,26 @@ public class Staff extends AuditDate {
 
     //bi-directional many-to-one association to Booking
     @OneToMany(mappedBy = "staff")
-    private Set<Booking> bookings;
+    private List<Booking> bookings;
 
     //bi-directional many-to-one association to GuestService
     @OneToMany(mappedBy = "staff")
-    private Set<GuestService> guestServices;
+    private List<GuestService> guestServices;
 
     //bi-directional many-to-one association to Report
     @OneToMany(mappedBy = "staff")
-    private Set<Report> reports;
+    private List<Report> reports;
 
     //bi-directional many-to-many association to Role
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "role_staff",
             joinColumns = {
-                    @JoinColumn(name = "role_id", nullable = false)
+                    @JoinColumn(name = "staff_id", nullable = false)
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "staff_id", nullable = false)
+                    @JoinColumn(name = "role_id", nullable = false)
             })
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     //bi-directional many-to-one association to Service
     @OneToMany(mappedBy = "staff")
