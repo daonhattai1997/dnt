@@ -9,17 +9,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createDt", "updateDt"}, allowGetters = true)
-@Getter
+@JsonIgnoreProperties(value = {"createdDt", "updatedDt"}, allowGetters = true)
 @Setter
 public abstract class AuditDate implements Serializable {
 
-    @Column(name = "create_dt", nullable = false, updatable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
+    @Column(name = "created_dt", nullable = false, updatable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdDt;
@@ -29,6 +29,15 @@ public abstract class AuditDate implements Serializable {
     @LastModifiedDate
     private Date updatedDt;
 
+    @Getter
     @Column(name = "delete_flag", nullable = false, columnDefinition = "varchar(3) default 'N'")
     private String deleteFlag;
+
+    public String getCreatedDt() {
+        return (new SimpleDateFormat("YYYY-MM-dd hh:mm:ss")).format(createdDt);
+    }
+
+    public String getUpdatedDt() {
+        return (new SimpleDateFormat("YYYY-MM-dd hh:mm:ss")).format(updatedDt);
+    }
 }

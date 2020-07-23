@@ -34,21 +34,31 @@ public class AuthRestController {
 
     @PostMapping(value = "/login", consumes = {"application/json"})
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword())
-        );
+        JwtAuthResponse response = null;
 
-        // if there is no exception, that means user information is available
-        // set authentication into Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword())
+            );
 
-        //return jwt
-        String jwt = jwtTokenProvider.generateToken(authentication);
+            // if there is no exception, that means user information is available
+            // set authentication into Security Context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        JwtAuthResponse response = new JwtAuthResponse(jwt);
-        response.setRoles(((UserPrincipal) authentication.getPrincipal()).getStaff().getRoles());
+            //return jwt
+            String jwt = jwtTokenProvider.generateToken(authentication);
+
+            response = new JwtAuthResponse(jwt);
+            response.setRoles(((UserPrincipal) authentication.getPrincipal()).getStaff().getRoles());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            response = new JwtAuthResponse("");
+            response.setMessage("Wrong Username or Password !");
+        }
 
         return ResponseEntity.ok(response);
     }

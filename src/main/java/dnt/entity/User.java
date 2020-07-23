@@ -1,9 +1,7 @@
 package dnt.entity;
 
 import dnt.entity.Audit.AuditDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 

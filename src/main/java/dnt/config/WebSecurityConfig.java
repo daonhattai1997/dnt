@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         String[] ignored = {
-                "/WEB-INF/views/**",
+                /*"/WEB-INF/views/**",
                 "/resources/**",
                 "/static/**",
                 "/uploads/**",
@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/cms/**",
                 "/js/**",
                 "/images/**",
-                "/assets/**"
+                "/assets/**"*/
         };
         web.ignoring().antMatchers(ignored);
     }
@@ -71,9 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String[] ignored = {
                 "/", "/home",
-                "/auth/login", "/login",
-                "/auth/register", "/register",
-                "/room", "/menu"
+                "/auth/login", "/auth/register",
+                "/room", "/menu", "/menu-link", "/staffs"
         };
 
         http.cors().and() //prevent any request from another domain
