@@ -1,9 +1,8 @@
 package dnt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dnt.entity.Audit.AuditDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,36 +41,44 @@ public class Staff extends AuditDate {
     private String name;
 
     //bi-directional many-to-one association to Group
+    @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private List<Group> ownGroups;
 
     //bi-directional many-to-many association to Group
+    @JsonIgnore
     @ManyToMany(mappedBy = "staffs")
     private List<Group> ownedByGroups;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_name")
     private Hotel hotel;
 
     //bi-directional many-to-one association to User
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "staff")
     private User account;
 
     //bi-directional many-to-one association to Booking
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Booking> bookings;
 
     //bi-directional many-to-one association to GuestService
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<GuestService> guestServices;
 
     //bi-directional many-to-one association to Report
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Report> reports;
 
     //bi-directional many-to-many association to Role
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "role_staff",
             joinColumns = {
@@ -83,6 +90,7 @@ public class Staff extends AuditDate {
     private List<Role> roles = new ArrayList<>();
 
     //bi-directional many-to-one association to Service
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private Set<Service> services;
 

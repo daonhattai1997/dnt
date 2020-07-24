@@ -57,6 +57,11 @@ public class Hotel extends AuditDate {
     @OneToMany(mappedBy = "hotel")
     private List<Room> rooms;
 
+    //bi-directional many-to-one association to Room
+    @JsonIgnore
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> staffs;
+
     public Report addReport(Report report) {
         getReports().add(report);
         report.setHotel(this);

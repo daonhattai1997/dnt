@@ -2,9 +2,7 @@ package dnt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dnt.entity.Audit.AuditDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -46,6 +44,7 @@ public class Booking extends AuditDate {
 
     //bi-directional many-to-one association to Staff
     @JsonIgnore
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
     private Staff staff;

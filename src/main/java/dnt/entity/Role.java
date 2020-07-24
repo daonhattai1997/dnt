@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dnt.entity.Audit.AuditDate;
 import dnt.entity.EnumType.RoleName;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -42,9 +40,9 @@ public class Role extends AuditDate {
     private RoleName name;
 
     //bi-directional many-to-many association to Staff
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     @JsonIgnore
-    private Set<Staff> staffs = new HashSet<>();
+    private List<Staff> staffs = new ArrayList<>();
 
     //bi-directional many-to-many association to Staff
     @ManyToMany(mappedBy = "roles")

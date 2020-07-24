@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,8 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User account = accountRepository.findByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("Khong tim thay tai khoan " + userName));
+        account.getStaff().setRoles(findAllByStaffs(account.getStaff().getStaffId()));
+
         return UserPrincipal.create(account);
     }
 
@@ -79,5 +82,9 @@ public class AuthService implements UserDetailsService {
                             .orElseThrow(() -> new ApplicationException("Khong ton tai role"));
                 })
                 .collect(Collectors.toSet());
+    }
+
+    public List<Role> findAllByStaffs(int staff_id) {
+        return roleRepository.findAllByStaffs(staffRepository.findAllByStaffId(staff_id));
     }
 }
