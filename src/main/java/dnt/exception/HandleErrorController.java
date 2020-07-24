@@ -32,7 +32,7 @@ public class HandleErrorController implements ErrorController {
                         "            <div class=\"error-template\">" +
                         "                <h1 class=\"display-1\">Oops!</h1><br><br><br>" +
                         "                <h2><b>" +
-                                            statusCode + " - " + message +
+                                            statusCode + (message == null || "".equals(message) ? "" : " - " + message) +
                         "               </b></h2>" +
                         "                <div class=\"error-details\">" +
                         "                    Sorry, an error has occured!" +

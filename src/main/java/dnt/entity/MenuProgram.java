@@ -36,8 +36,8 @@ public class MenuProgram extends AuditUser {
     private String menuName;
 
     @NotBlank
-    @Column(name = "parent_id", columnDefinition = "int default 0")
-    private int parentId;
+    @Column(name = "menu_file", unique = true)
+    private String menuFile;
 
     @NotBlank
     @Column(name = "menu_url", length = 500)
