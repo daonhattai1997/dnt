@@ -17,6 +17,7 @@ public class JwtAuthResponse {
     @NonNull
     private String accessToken;
     private String tokenType = "Bearer";
+    private String username;
     private List<Role> roles;
     private String message;
 }

@@ -45,8 +45,10 @@ public class AuthRestController {
         //return jwt
         String jwt = jwtTokenProvider.generateToken(authentication);
 
+        UserPrincipal up = (UserPrincipal) authentication.getPrincipal();
         JwtAuthResponse response = new JwtAuthResponse(jwt);
-        response.setRoles(((UserPrincipal) authentication.getPrincipal()).getStaff().getRoles());
+        response.setRoles(up.getStaff().getRoles());
+        response.setUsername(up.getUsername());
 
         return ResponseEntity.ok(response);
     }
