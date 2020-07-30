@@ -1,15 +1,12 @@
 package dnt.service;
 
 import dnt.config.JwtTokenProvider;
-import dnt.entity.Data.LoginRequest;
-import dnt.entity.Data.LoginResponse;
-import dnt.entity.Data.Token;
+import dnt.entity.Data.*;
 import dnt.entity.EnumType.RoleName;
 import dnt.entity.Role;
 import dnt.entity.Staff;
 import dnt.entity.User;
 import dnt.entity.UserPrincipal;
-import dnt.entity.Data.RegisterRequest;
 import dnt.exception.ApplicationException;
 import dnt.repository.AccountRepository;
 import dnt.repository.GroupRepository;
@@ -22,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,7 +47,7 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User account = accountRepository.findByUsername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("Khong tim thay tai khoan " + userName));
+                .orElseThrow(() -> new UsernameNotFoundException("Not found username: " + userName));
         account.getStaff().setRoles(findAllByStaffs(account.getStaff().getStaffId()));
 
         return UserPrincipal.create(account);
@@ -58,8 +57,7 @@ public class AuthService implements UserDetailsService {
 
         String userName = loginRequest.getUsername();
         User user = accountRepository.findByUsername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("Khong tim thay tai khoan " + userName));
-        user.getStaff().setRoles(findAllByStaffs(user.getStaff().getStaffId()));
+                .orElseThrow(() -> new UsernameNotFoundException("Not found username: " + userName));
 
         Boolean accessTokenValid = jwtTokenProvider.validateToken(accessToken);
         Boolean refreshTokenValid = jwtTokenProvider.validateToken(refreshToken);
@@ -86,7 +84,7 @@ public class AuthService implements UserDetailsService {
             addRefreshTokenCookie(responseHeaders, newRefreshToken);
         }
 
-        LoginResponse loginResponse = new LoginResponse(LoginResponse.SuccessFailure.SUCCESS, "Auth successful. Tokens are created in cookie.");
+        LoginResponse loginResponse = new LoginResponse(Constants.SUCCESS, "Auth successful. Tokens are created in cookie.");
         return ResponseEntity.ok().headers(responseHeaders).body(loginResponse);
 
     }
@@ -103,7 +101,7 @@ public class AuthService implements UserDetailsService {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.SET_COOKIE, cookieUtil.createAccessTokenCookie(newAccessToken.getTokenValue(), newAccessToken.getDuration()).toString());
 
-        LoginResponse loginResponse = new LoginResponse(LoginResponse.SuccessFailure.SUCCESS, "Auth successful. Tokens are created in cookie.");
+        LoginResponse loginResponse = new LoginResponse(Constants.SUCCESS, "Auth successful. Tokens are created in cookie.");
         return ResponseEntity.ok().headers(responseHeaders).body(loginResponse);
     }
 
@@ -149,12 +147,24 @@ public class AuthService implements UserDetailsService {
                 .map(role -> {
                     log.info(RoleName.valueOf(role).toString());
                     return roleRepository.findByName(RoleName.valueOf(role))
-                            .orElseThrow(() -> new ApplicationException("Khong ton tai role"));
+                            .orElseThrow(() -> new ApplicationException("Role is not exist"));
                 })
                 .collect(Collectors.toSet());
     }
 
     public List<Role> findAllByStaffs(int staff_id) {
         return roleRepository.findAllByStaffs(staffRepository.findAllByStaffId(staff_id));
+    }
+
+    public UserSummary getUserProfile() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal customUserDetails = (UserPrincipal) authentication.getPrincipal();
+
+        User account = accountRepository.findByUsername(customUserDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("Not found username: " + customUserDetails.getUsername()));
+        UserSummary summary = new UserSummary(customUserDetails.getUsername(), findAllByStaffs(account.getStaff().getStaffId()));
+
+        return summary;
     }
 }

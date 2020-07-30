@@ -32,25 +32,17 @@ public class AuthRestController {
     private AuthenticationManager authenticationManager;
     private AuthService authService;
 
-    @GetMapping("/profile")
-    public String profilePage(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies != null) {
-            return Arrays.stream(cookies)
-                    .map(c -> c.getName() + "=" + c.getValue())
-                    .collect(Collectors.joining(", "));
-        }
-        return "null";
+    @GetMapping("/profile/me")
+    public ResponseEntity<?> profilePage() {
+        return ResponseEntity.ok(authService.getUserProfile());
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@ResponseBody
+    @ResponseBody
     public ResponseEntity<?> login(
             @CookieValue(name = "accessToken", required = false) String accessToken,
             @CookieValue(name = "refreshToken", required = false) String refreshToken,
-            @Valid @RequestBody LoginRequest loginRequest,
-            HttpServletRequest request) {
+            @Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),

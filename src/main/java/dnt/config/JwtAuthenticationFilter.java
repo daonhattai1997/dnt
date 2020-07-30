@@ -22,6 +22,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -55,7 +57,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            logger.error("Could not set account authentication in security context", ex);
+            String msg = Arrays.stream(Arrays.stream(ex.getStackTrace()).filter(x -> x.getClassName().contains("dnt.")).toArray())
+                    .map(c -> "\t" + c.toString())
+                    .collect(Collectors.joining("\n"));
+            logger.error("Could not set account authentication in security context\n" + msg);
         }
         finally {
             filterChain.doFilter(request, response);

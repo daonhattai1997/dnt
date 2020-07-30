@@ -1,22 +1,22 @@
 package dnt.entity.Data;
 
+import dnt.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
+/**
+ * @Author: TCMALTUNKAN - MEHMET ANIL ALTUNKAN
+ * @Date: 30.12.2019:11:39, Pzt
+ **/
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
-public class LoginRequest {
-
-    @NotNull
+public class UserSummary {
     private String username;
-
-    @NotNull
-    private String password;
-
+    private List<Role> roles;
 }

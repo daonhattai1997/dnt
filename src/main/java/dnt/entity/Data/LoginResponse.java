@@ -1,15 +1,12 @@
 package dnt.entity.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class LoginResponse {
-    private SuccessFailure status;
+    private int status;
     private String message;
-
-    public enum SuccessFailure {
-        SUCCESS, FAILURE
-    }
 }
