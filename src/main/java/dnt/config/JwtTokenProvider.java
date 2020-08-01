@@ -23,6 +23,17 @@ public class JwtTokenProvider {
 
     @Value("${application.jwtExpirationInMs}")
     private int jwtExpirationInMs;
+    
+    public JwtTokenProvider() {
+		// TODO Auto-generated constructor stub
+    	if(jwtSecret == null) {
+    		jwtSecret = "JWTSuperSecretKey";
+    	}
+    	
+    	if(jwtExpirationInMs == 0) {
+    		jwtExpirationInMs = 604800000;
+    	}
+	}
 
     // generate jwt from user information
     public String generateToken(Authentication authentication) {

@@ -30,6 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private AuthService authService;
 
+    public JwtAuthenticationFilter(AuthService authService) {
+		// TODO Auto-generated constructor stub
+    	this.authService = authService;
+    	this.tokenProvider = new JwtTokenProvider();
+	}
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {

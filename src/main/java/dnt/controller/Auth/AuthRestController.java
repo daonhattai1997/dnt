@@ -2,6 +2,7 @@ package dnt.controller.Auth;
 
 import dnt.config.JwtTokenProvider;
 import dnt.entity.Data.JwtAuthResponse;
+import dnt.entity.Hotel;
 import dnt.entity.Staff;
 import dnt.entity.UserPrincipal;
 import dnt.entity.Data.ApiResponse;
@@ -54,15 +55,25 @@ public class AuthRestController {
     }
 
     @PostMapping(value = "/register", consumes = {"application/json"})
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        Staff staff = authService.register(registerRequest);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/users/{username}")
-                .buildAndExpand(staff.getAccount().getUsername())
-                .toUri();
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "Dang ky thanh cong"));
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) throws Exception {
+//        Staff staff = authService.register(registerRequest);
+//
+//        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/api/users/{username}")
+//                .buildAndExpand(staff.getAccount().getUsername())
+//                .toUri();
+//        return ResponseEntity.created(location)
+//                .body(new ApiResponse(true, "Dang ky thanh cong"));
+    	try {
+    		authService.createStaff(registerRequest);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	return ResponseEntity.ok("Đăng kí thành thụ");
     }
 
 }
