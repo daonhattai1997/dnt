@@ -8,6 +8,7 @@ import dnt.entity.User;
 import dnt.entity.UserPrincipal;
 import dnt.entity.Data.Constants;
 import dnt.entity.Data.RegisterRequest;
+import dnt.entity.Data.AccountRequest;
 import dnt.exception.ApplicationException;
 import dnt.repository.AccountRepository;
 import dnt.repository.GroupRepository;
@@ -24,8 +25,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -104,6 +108,38 @@ public class AuthService implements UserDetailsService {
 //                })
 //                .collect(Collectors.toSet());
 //    }
+    
+	public User createAccount(AccountRequest accountRequest) throws Exception {
+		if (accountRepository.existsByUsername(accountRequest.getUsername())) {
+			throw new Exception("da ton tai username: " + accountRequest.getUsername());
+		}
+		else {
+			
+//			Map<String, Object> user = new HashMap<>(); co the xai hashmap de tra du lieu ve
+//			user.put("username", accountRequest.getUsername());
+			
+			User newUser = new User();
+			newUser.setUsername(accountRequest.getUsername());
+			newUser.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
+			Staff staff = staffRepository.findByStaffIdAndDeleteFlagEquals(Integer.parseInt(accountRequest.getStaffId()), Constants.NO)
+					.orElseThrow(() -> new Exception("khong tim thay nhan vien"));
+//			newUser.setStaff(staff);
+			
+			List<Role> roles = new ArrayList<Role>();
+			Role role = roleRepository.findById((Integer.parseInt(accountRequest.getRoleId())));
+			roles.add(role);
+			staff.setRoles(roles);
+			
+//			staff.addRole(role);
+			staffRepository.save(staff);
+			
+			newUser.setStaff(staff);
+			newUser.setDeleteFlag(Constants.NO);
+			newUser.setCreatedDt(new Date());
+			
+			return accountRepository.save(newUser);
+		}
+	}
 
     public List<Role> findAllByStaffs(int staff_id) {
         return roleRepository.findAllByStaffs(staffRepository.findAllByStaffId(staff_id));

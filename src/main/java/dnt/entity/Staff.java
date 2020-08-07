@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "staff")
 @NamedQuery(name = "Staff.findAll", query = "SELECT s FROM Staff s where delete_flag = 'N'")
@@ -79,7 +80,7 @@ public class Staff extends AuditDate {
 
     //bi-directional many-to-many association to Role
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "role_staff",
             joinColumns = {
                     @JoinColumn(name = "staff_id", nullable = false)
